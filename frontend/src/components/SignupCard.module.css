@@ -57,18 +57,23 @@ p{
 }
 
 button {
-    background-color: rgba(30, 28, 28, 0.8); /* Slight transparency */
+    background-color: rgba(30, 28, 28, 0.8);
     width: 200px;
     height: 50px;
     font-weight: bold;
-    color: #ffffff; /* Brighter white for better contrast */
-    border: 3px solid transparent; /* Ensures gradient border is visible */
+    color: #ffffff;
+    border: 3px solid transparent;
     border-radius: 25px;
     cursor: pointer;
     border-image-source: linear-gradient(135deg, #d9dee0, #a770ff);
     border-image-slice: 1;
     transition: all 0.3s ease-in-out;
+    
+    /* Remove unwanted box-shadow */
+    box-shadow: none;
+    outline: none;
 }
+
 
 button:hover {
     background: linear-gradient(135deg, #232526, #414345); /* Dark gradient */

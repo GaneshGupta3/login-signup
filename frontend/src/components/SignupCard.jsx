@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import styles from "./SignupCard.module.css"
+import styles from "./SignUpCard.module.css"
 
 const SignUpCard = () => {
   const handleSignUp = ()=>{
