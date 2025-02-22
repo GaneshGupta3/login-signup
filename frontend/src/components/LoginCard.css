@@ -1,0 +1,75 @@
+/* Background styling */
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100%;
+    font-size: xx-large;
+    background: linear-gradient(135deg, #007bff, #6610f2);
+}
+
+/* Login Box */
+.login-box {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    padding: 30px;
+    border-radius: 12px;
+    width: 500px;
+    height: 500px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    color: white;
+}
+
+/* Heading */
+.login-box h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+/* Input Fields */
+.login-box input {
+    font-size: large;
+    height: 50px;
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border: none;
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    outline: none;
+}
+
+.login-box input::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+/* Button */
+.login-box button {
+    width: 100%;
+    padding: 12px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 6px;
+    background: white;
+    color: #007bff;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.login-box button:hover {
+    background: #ddd;
+}
+
+/* Signup Link */
+.signup-text {
+    margin-top: 15px;
+}
+
+.signup-text a {
+    color: #fff;
+    text-decoration: underline;
+}
