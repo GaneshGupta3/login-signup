@@ -4,12 +4,13 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
+const jwtAuth = require("./middlewares/jwtAuth");
 require("dotenv").config();
 
 const app = express();
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors({ origin: "http://localhost:3000", credentials: true })); // Allow Flutter frontend
+app.use(cors({ origin: "http://localhost:5173", credentials: true })); // Allow Flutter frontend
 
 // MongoDB Connection
 mongoose.connect(process.env.MONGO_URI)
@@ -25,7 +26,7 @@ const UserSchema = new mongoose.Schema({
 const User = mongoose.model("User", UserSchema);
 
 // Register User
-app.post("/register", async (req, res) => {
+app.post("/api/register", async (req, res) => {
     const { name, email, password } = req.body;
     const hashedPassword = await bcrypt.hash(password, 10);
     const newUser = new User({ name, email, password: hashedPassword });
@@ -39,7 +40,7 @@ app.post("/register", async (req, res) => {
 });
 
 // Login User
-app.post("/login", async (req, res) => {
+app.post("/api/login", async (req, res) => {
     const { email, password } = req.body;
     const user = await User.findOne({ email });
 
@@ -50,34 +51,49 @@ app.post("/login", async (req, res) => {
 
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: "1d" });
 
-    res.cookie("authToken", token, {
+    res.cookie("token", token, {
         httpOnly: true,
         secure: false, // Set to true in production (requires HTTPS)
         sameSite: "Lax",
         maxAge: 24 * 60 * 60 * 1000, // 1 day
     });
 
-    res.json({ message: "Login successful!" });
+    res.json({ message: "Login successful!" , user : {email : user.email , username : user.name }});
 });
 
-// Protected Route (Check if user is logged in)
-app.get("/profile", (req, res) => {
-    const token = req.cookies.authToken;
-    if (!token) return res.status(401).json({ error: "Unauthorized" });
-
+app.get("/api/profile", jwtAuth, async (req, res) => {
     try {
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        res.json({ message: "Access granted", userId: decoded.id });
-    } catch (err) {
-        res.status(403).json({ error: "Invalid token" });
+        // Fetch user details from the database
+        const user = await User.findById(req.userId).select("email name"); 
+
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        res.json({
+            message: "Access Granted!",
+            user: {
+                email: user.email,
+                username: user.name
+            }
+        });
+    } catch (error) {
+        console.error("Error fetching profile:", error.message);
+        res.status(500).json({ message: "Server error" });
     }
 });
 
-// Logout (Clear Cookie)
+app.post("/api/logout", jwtAuth ,  (req, res) => {
+    res.clearCookie("token", { path: "/" });
+    res.json({ message: "Cookie deleted successfully" });
+});
+
 app.get("/logout", (req, res) => {
-    res.clearCookie("authToken");
+    res.clearCookie("token");
     res.json({ message: "Logged out successfully!" });
 });
+
+// Protected Route (Check if user is logged in)
 
 // Start Server
 app.listen(5000, () => console.log("Server running on port 5000"));

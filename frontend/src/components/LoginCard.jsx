@@ -1,38 +1,83 @@
-import React, { useRef, useState } from "react";
-import "./LoginCard.css";
-import { useSelector } from "react-redux";
+import React, { useRef, useEffect } from "react";
+import styles from "./LoginCard.module.css";
+import { useDispatch } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+import { authSliceActions } from "../store/authSlice";
 
 function LoginCard() {
-    const username = useRef();
-    const [password, setPassword] = useState("");
+    const email = useRef();
+    const password = useRef();
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
 
-    const handleLogin = (e) => {
+    // 🔹 Function to check if user has valid cookies
+    const checkUserSession = async () => {
+        try {
+            const response = await axios.get("/api/profile", {
+                withCredentials: true, // Ensure cookies are sent
+            });
+
+            if (response.status === 200) {
+                dispatch(authSliceActions.login(response.data.user)); // Save user data in Redux
+                navigate("/profile"); // Redirect to profile page
+            }
+        } catch (error) {
+            console.log("User not logged in or invalid session.");
+        }
+    };
+
+    useEffect(() => {
+        checkUserSession(); // Check if user is already authenticated
+    }, []);
+
+    // 🔹 Function to handle login
+    const handleLogin = async (e) => {
         e.preventDefault();
-        alert(`Welcome, ${username.current.value}!`);
+        try {
+            const user = {
+                email: email.current.value,
+                password: password.current.value,
+            };
+
+            const response = await axios.post("/api/login", user, {
+                withCredentials: true,
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            });
+
+            if (response.status === 200) {
+                dispatch(authSliceActions.login(response.data.user)); // Save user in Redux
+                navigate("/profile"); // Redirect after login
+            }
+        } catch (error) {
+            console.error(
+                "Login failed:",
+                error.response?.data || error.message
+            );
+        }
     };
 
     return (
-        <div className="login-container">
-            <div className="login-box">
-                <p>Sign in to continue</p>
-                <form onSubmit={handleLogin}>
-                    <input
-                        type="text"
-                        placeholder="Username"
-                        ref = {username}
-                        required
-                    />
-                    <input
-                        type="password"
-                        placeholder="Password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        required
-                    />
-                    <button type="submit">Login</button>
-                </form>
+        <div className={styles.backgroundImage}>
+            <div className={styles.card}>
+                <p>Login</p>
+
+                <input type="text" placeholder="Email" ref={email} required />
+                <input
+                    type="password"
+                    placeholder="Password"
+                    ref={password}
+                    required
+                />
+                <button onClick={handleLogin}>Login</button>
+
                 <p className="signup-text">
-                    Don't have an account? <a href="#">Sign up</a>
+                    Don't have an account?{" "}
+                    <Link style={{ color: "#ccc" }} to="/signup">
+                        Sign up
+                    </Link>
                 </p>
             </div>
         </div>

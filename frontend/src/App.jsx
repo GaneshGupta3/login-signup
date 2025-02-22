@@ -4,6 +4,7 @@ import Home from "./components/Home";
 import LoginCard from "./components/LoginCard";
 import SignupCard from "./components/SignUpCard";
 import TransparentCard from "./components/TransparentCard";
+import ProfilePage from "./components/ProfilePage";
 
 function App() {
     return (
@@ -13,6 +14,7 @@ function App() {
                     <Route path="/" element={<Home />}></Route>
                     <Route path="/login" element={ <LoginCard />  }></Route>
                     <Route path="/signup" element={<SignupCard />}></Route>
+                    <Route path="/profile" element={<ProfilePage />}></Route>
                 </Routes>
             </BrowserRouter>
         </>
