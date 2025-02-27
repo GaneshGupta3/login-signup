@@ -20,6 +20,10 @@ mongoose.connect(process.env.MONGO_URI)
 
 // User Schema & Model
 
+app.get("/" , (req , res) => {
+    res.json({message : "hello"});
+})
+
 
 // Register User
 app.post("/api/register", async (req, res) => {
