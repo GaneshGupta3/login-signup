@@ -5,6 +5,7 @@ const jwt = require("jsonwebtoken");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const jwtAuth = require("./middlewares/jwtAuth");
+const User = require("./models/User");
 require("dotenv").config();
 
 const app = express();
@@ -18,12 +19,7 @@ mongoose.connect(process.env.MONGO_URI)
     .catch(err => console.log(err));
 
 // User Schema & Model
-const UserSchema = new mongoose.Schema({
-    name: String,
-    email: String,
-    password: String
-});
-const User = mongoose.model("User", UserSchema);
+
 
 // Register User
 app.post("/api/register", async (req, res) => {
@@ -86,11 +82,6 @@ app.get("/api/profile", jwtAuth, async (req, res) => {
 app.post("/api/logout", jwtAuth ,  (req, res) => {
     res.clearCookie("token", { path: "/" });
     res.json({ message: "Cookie deleted successfully" });
-});
-
-app.get("/logout", (req, res) => {
-    res.clearCookie("token");
-    res.json({ message: "Logged out successfully!" });
 });
 
 // Protected Route (Check if user is logged in)
