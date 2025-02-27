@@ -3,6 +3,7 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { authSliceActions } from "../store/authSlice"; // Import missing auth actions
+import LogoutButton from "./LogoutButton";
 
 const ProfilePage = () => {
     const dispatch = useDispatch();
@@ -32,7 +33,12 @@ const ProfilePage = () => {
         return <div>Loading...</div>;
     }
 
-    return <div>Hello, {user.username}!</div>;
+    return (
+        <>
+            <div>Hello, {user.username}!</div>
+            <LogoutButton></LogoutButton>
+        </>
+    );
 };
 
 export default ProfilePage;

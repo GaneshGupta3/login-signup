@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import axios from "axios";
 
 const initialState = {
     user: null, // Load from storage
@@ -17,10 +18,19 @@ const authSlice = createSlice({
         logout: (state) => {
             state.user = null;
             state.isLoggedIn = false;
-            localStorage.removeItem("user"); // Clear storage
+            localStorage.removeItem("user"); // Also clear from storage
         },
     },
 });
+
+export const logoutAsync = () => async (dispatch) => {
+    try {
+        await axios.post("/api/logout"); // Call API
+        dispatch(authSlice.actions.logout()); // Dispatch sync logout action
+    } catch (error) {
+        console.error("Logout failed", error);
+    }
+};
 
 export default authSlice;
 export const authSliceActions = authSlice.actions;
