@@ -3,8 +3,8 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { authSliceActions } from "../../store/authSlice";
-import LogoutButton from "../LogoutButton";
 import styles from "./ProfilePage.module.css";
+import LogoutButton from "../Logout/LogoutButton";
 
 const ProfilePage = () => {
     const dispatch = useDispatch();

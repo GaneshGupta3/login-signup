@@ -2,8 +2,8 @@ import React from "react";
 import styles from "./Navbar.module.css";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import LogoutButton from "../LogoutButton";
 import StyledButton from "../StyledButton/StyledButton";
+import LogoutButton from "../Logout/LogoutButton";
 
 const Navbar = ({ transparent }) => {
 
