@@ -3,7 +3,8 @@ import styles from "./LoginCard.module.css";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { authSliceActions } from "../store/authSlice";
+import { authSliceActions } from "../../store/authSlice";
+import StyledButton from "../StyledButton/StyledButton";
 
 function LoginCard() {
     const email = useRef();
@@ -40,7 +41,7 @@ function LoginCard() {
                 password: password.current.value,
             };
 
-            const response = await axios.post("/api/login", user, {
+            const response = await axios.post("/auth/login", user, {
                 withCredentials: true,
                 headers: {
                     "Content-Type": "application/json",
@@ -52,15 +53,15 @@ function LoginCard() {
                 navigate("/profile"); // Redirect after login
             }
         } catch (error) {
-            console.error(
-                "Login failed:",
-                error.response?.data || error.message
-            );
+            const errorMessage =
+                error.response?.data?.error || "Something went wrong"; // Access the error message directly
+            alert(errorMessage);
+            console.error("Login failed:", errorMessage);
         }
     };
 
     return (
-        <div className={styles.backgroundImage}>
+        <div className={styles.mainBody}>
             <div className={styles.card}>
                 <p>Login</p>
 
@@ -71,7 +72,7 @@ function LoginCard() {
                     ref={password}
                     required
                 />
-                <button onClick={handleLogin}>Login</button>
+                <StyledButton displayText={'Login'} executeFunction={handleLogin}></StyledButton>
 
                 <p className="signup-text">
                     Don't have an account?{" "}

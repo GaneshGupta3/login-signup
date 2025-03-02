@@ -2,8 +2,9 @@ import axios from "axios";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { authSliceActions } from "../store/authSlice"; // Import missing auth actions
-import LogoutButton from "./LogoutButton";
+import { authSliceActions } from "../../store/authSlice";
+import LogoutButton from "../LogoutButton";
+import styles from "./ProfilePage.module.css";
 
 const ProfilePage = () => {
     const dispatch = useDispatch();
@@ -14,30 +15,30 @@ const ProfilePage = () => {
         const checkUserSession = async () => {
             try {
                 const response = await axios.get("/api/profile", {
-                    withCredentials: true, // Ensure cookies are sent
+                    withCredentials: true,
                 });
-
                 if (response.status === 200) {
-                    dispatch(authSliceActions.login(response.data.user)); // Save user in Redux
+                    dispatch(authSliceActions.login(response.data.user));
                 }
             } catch (error) {
-                navigate("/login"); // Redirect if unauthorized
+                console.error("Session expired or unauthorized", error);
+                dispatch(authSliceActions.logout());
+                navigate("/login");
             }
         };
 
-        checkUserSession(); // Run authentication check
-    }, [dispatch, navigate]); // Include dependencies
+        checkUserSession();
+    }, [dispatch, navigate]);
 
-    // Handle case where user data is still loading
     if (!user) {
-        return <div>Loading...</div>;
+        return <div className={styles.loader}>Loading...</div>; // Use loader class
     }
 
     return (
-        <>
-            <div>Hello, {user.username}!</div>
-            <LogoutButton></LogoutButton>
-        </>
+        <div className={styles.profileBody}>
+            <h2>Hello, {user.username}!</h2>
+            <LogoutButton />
+        </div>
     );
 };
 

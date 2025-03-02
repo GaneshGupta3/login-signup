@@ -11,6 +11,7 @@ const authSlice = createSlice({
     initialState,
     reducers: {
         login: (state, action) => {
+            console.log("dispatched to login");
             state.user = action.payload;
             state.isLoggedIn = true;
             localStorage.setItem("user", JSON.stringify(action.payload)); // Persist login
@@ -25,7 +26,7 @@ const authSlice = createSlice({
 
 export const logoutAsync = () => async (dispatch) => {
     try {
-        await axios.post("/api/logout"); // Call API
+        await axios.post("/auth/logout"); // Call API
         dispatch(authSlice.actions.logout()); // Dispatch sync logout action
     } catch (error) {
         console.error("Logout failed", error);
