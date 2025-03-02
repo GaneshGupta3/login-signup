@@ -24,6 +24,7 @@
     cursor: pointer;
     color: aqua;
     transition: color 0.3s ease;
+    border-bottom: 5px solid aqua;
 }
 
 .logo {
@@ -34,4 +35,16 @@
     background-repeat: no-repeat;
     background-position: center;
     cursor: pointer;
+}
+
+.logoutDiv{
+    display: flex;
+    align-items: center;
+    font-size: x-large;
+    cursor: pointer;
+}
+
+.logoutDiv:hover{
+    color: aqua;
+    border-bottom: 5px solid aqua;
 }
