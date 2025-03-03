@@ -13,7 +13,11 @@
     flex-direction: row;
     justify-content: space-around;
     align-items: center;
-    transition: background 0.3s ease-in-out;
+    transition: background 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+.navbar:hover {
+    transform: translateY(-5px); /* Slight lift effect */
 }
 
 .transparent {
@@ -23,28 +27,36 @@
 .navbar h1:hover {
     cursor: pointer;
     color: aqua;
-    transition: color 0.3s ease;
-    border-bottom: 5px solid aqua;
+    transition: color 0.3s ease, transform 0.3s ease;
+    border-bottom: 3px solid aqua;
+    transform: scale(1.1); /* Slight zoom effect */
 }
 
 .logo {
     width: 70px;
     height: 70px;
-    background-image: url("../../assets/logo-removebg-preview.png");
+    background-image: url("../../assets/blacklogo.png");
     background-size: contain; /* Proper image scaling */
     background-repeat: no-repeat;
     background-position: center;
     cursor: pointer;
+    transition: transform 0.3s ease;
 }
 
-.logoutDiv{
+.logo:hover {
+    transform: rotate(360deg); /* Full rotation effect */
+}
+
+.logoutDiv {
     display: flex;
     align-items: center;
     font-size: x-large;
     cursor: pointer;
+    transition: color 0.3s ease, transform 0.3s ease;
 }
 
-.logoutDiv:hover{
+.logoutDiv:hover {
     color: aqua;
-    border-bottom: 5px solid aqua;
+    border-bottom: 3px solid aqua;
+    transform: scale(1.1); /* Slight zoom effect */
 }

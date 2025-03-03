@@ -23,10 +23,19 @@ const Navbar = ({ transparent }) => {
         navigate("/login");
     };
 
+    const navigateDashboard = () => {
+        navigate("/dashboard");
+    }
+
+    const navigateChatpage = ()=>{
+        navigate("/chatpage");
+    }
+
     return (
         <nav className={`${styles.navbar} ${transparent ? styles.transparent : ""}`}>
             <div className={styles.logo}></div>
-            <h1>Dashboard</h1>
+            <h1 onClick={navigateDashboard}>Dashboard</h1>
+            <h1 onClick={navigateChatpage}>Dashboard</h1>
             <h1>About Us</h1>
             <h1>Problems</h1>
             <h1>Rankings</h1>
