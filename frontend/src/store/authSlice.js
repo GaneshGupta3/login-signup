@@ -4,6 +4,7 @@ import axios from "axios";
 const initialState = {
     user: null, // Load from storage
     isLoggedIn: false, // Convert to boolean
+    isSigningUp : false,
 };
 
 const authSlice = createSlice({
@@ -21,6 +22,9 @@ const authSlice = createSlice({
             state.isLoggedIn = false;
             localStorage.removeItem("user"); // Also clear from storage
         },
+        signUpButtonClicked: (state) => {
+            state.isSigningUp = true;
+        }
     },
 });
 

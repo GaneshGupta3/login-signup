@@ -1,5 +1,6 @@
+const { default: Message } = require("../models/message");
 const User = require("../models/user");
-import cloudinary from "../services/cloudinary";
+const cloudinary = require("../services/cloudinary");
 
 const updateProfileController = async (req, res) => {
     try {
@@ -21,4 +22,18 @@ const updateProfileController = async (req, res) => {
     }
 };
 
-module.exports = { updateProfileController };
+const checkAuthController = (req, res) => {
+    try {
+        res.status(200).json(req.user);
+    } catch (error) {
+        console.log("error in check auth controller");
+        res.status(500).json({ message: "Internal server error" });
+    }
+};
+
+
+
+module.exports = {
+    updateProfileController,
+    checkAuthController,
+};

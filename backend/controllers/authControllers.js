@@ -38,20 +38,25 @@ const registerController = async(req ,res)=>{
         if (isUsernamePresent) {
             return res.status(400).json({ message: "UserName already exists" });
         }
+    
         const existingUser = await User.findOne({ email });
+
         if (existingUser) {
             return res.status(400).json({ message: "email already exists" });
         }
-
+    
         // Hash the password
         const hashedPassword = await bcrypt.hash(password, 10);
-        const newUser = new User({ username, email, password: hashedPassword });
 
+        const newUser = new User({ username, email, password: hashedPassword , profilePic:"" });
+        
         // Save the new user
         await newUser.save();
+    
         res.json({ message: "User registered successfully!" });
+    
     } catch (err) {
-        res.status(500).json({ error: "Error registering user" });
+        res.status(500).json({ error: err.message || "Internal Server Error" });
     }
 }
 

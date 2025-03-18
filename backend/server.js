@@ -8,6 +8,7 @@ const AuthenticationRouter = require("./routes/authRoutes");
 const UserRouter = require("./routes/userRoutes");
 const { Server } = require("socket.io");
 const { createServer } = require("node:http");
+const MessageRouter = require("./routes/messageRoutes");
 const app = express();
 const server = createServer(app);
 
@@ -121,7 +122,9 @@ app.get("/api/profile", jwtAuth, async (req, res) => {
 });
 
 // app.use("/auth", AuthenticationRouter);
-app.use("/user" , UserRouter);
+app.use("/api/user" , UserRouter);
+
+app.use("/api/message", MessageRouter);
 
 // Protected Route (Check if user is logged in)
 

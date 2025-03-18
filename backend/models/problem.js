@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const User = require("./user")
 
 const ProblemSchema = new mongoose.Schema({
     problemStatement: {
@@ -6,16 +7,24 @@ const ProblemSchema = new mongoose.Schema({
         required: true,
         trim: true, // Removes leading/trailing spaces
     },
-    tags:[{
-        type:String,
+    tags: {
+        type: [String],
+        validate: {
+            validator: function (tags) {
+                return new Set(tags).size === tags.length;
+            },
+            message: "Tags must be unique!",
+        },
+    },    
+    difficulty: {
+        type: String,
         required: true,
-    }],
-    difficulty:{
-        type:String,
-        required: true,
-    },
+        enum: ["Easy", "Medium", "Hard"],
+        message: "Difficulty must be Easy, Medium, or Hard",
+    },    
     githubLink: {
         type: String,
+        required: true,
         validate: {
             validator: function (v) {
                 return /^(https?:\/\/)?(www\.)?github\.com\/[A-Za-z0-9_-]+\/[A-Za-z0-9_-]+$/i.test(v);
@@ -25,8 +34,8 @@ const ProblemSchema = new mongoose.Schema({
     },
     goodies: {
         type: String,
-        default: "No goodies", // Default message if empty
-    },
+        default: null,
+    },    
     attempters: [
         {
             userId: {
@@ -38,10 +47,6 @@ const ProblemSchema = new mongoose.Schema({
                 type: Boolean,
                 default: false, // Default: Not solved
             },
-            attemptedAt: {
-                type: Date,
-                default: Date.now, // Stores attempt time
-            },
         },
     ],
     issuedBy: {
@@ -51,7 +56,7 @@ const ProblemSchema = new mongoose.Schema({
     },
     deadline: {
         type: Date,
-        required: true, // Ensures the problem has a deadline
+        default: 0, // Ensures the problem has a deadline
     },
     solved: {
         type: Boolean,

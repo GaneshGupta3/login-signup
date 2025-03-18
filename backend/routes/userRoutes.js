@@ -1,9 +1,10 @@
 const express = require("express");
 const jwtAuth = require("../middlewares/jwtAuth");
-const { updateProfileController } = require("../controllers/userController");
-// const { loginController, registerController, logoutController } = require("../controllers/authControllers");
+const { updateProfileController , checkAuthController, getUserForSidebars , getMessages } = require("../controllers/userControllers");
 const UserRouter = express.Router();
 
-UserRouter.put("/update-profile-pic" ,jwtAuth , updateProfileController)
+UserRouter.put("/update-profile-pic" ,jwtAuth , updateProfileController);
+
+UserRouter.get("/check-auth" , jwtAuth , checkAuthController);
 
 module.exports = UserRouter;

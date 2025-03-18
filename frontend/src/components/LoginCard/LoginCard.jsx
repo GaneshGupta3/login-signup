@@ -15,7 +15,7 @@ function LoginCard() {
     // 🔹 Function to check if user has valid cookies
     const checkUserSession = async () => {
         try {
-            const response = await axios.get("/api/profile", {
+            const response = await axios.get("/api/user/check-auth", {
                 withCredentials: true, // Ensure cookies are sent
             });
 
