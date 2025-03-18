@@ -35,7 +35,7 @@ const Navbar = ({ transparent }) => {
         <nav className={`${styles.navbar} ${transparent ? styles.transparent : ""}`}>
             <div className={styles.logo}></div>
             <h1 onClick={navigateDashboard}>Dashboard</h1>
-            <h1 onClick={navigateChatpage}>Dashboard</h1>
+            {isLoggedIn && <h1 onClick={navigateChatpage}>Discussion</h1>}
             <h1>About Us</h1>
             <h1>Problems</h1>
             <h1>Rankings</h1>

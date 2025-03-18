@@ -9,7 +9,7 @@ import LogoutButton from "../Logout/LogoutButton";
 const ProfilePage = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const { isSigningUp } = useSelector((store) => store.authProvider);
+    const { user } = useSelector((store) => store.authProvider);
 
     useEffect(() => {
         const checkUserSession = async () => {

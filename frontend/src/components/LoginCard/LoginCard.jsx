@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { authSliceActions } from "../../store/authSlice";
 import StyledButton from "../StyledButton/StyledButton";
+import { toast } from "react-toastify";
 
 function LoginCard() {
     const email = useRef();
@@ -53,9 +54,8 @@ function LoginCard() {
                 navigate("/profile"); // Redirect after login
             }
         } catch (error) {
-            const errorMessage =
-                error.response?.data?.error || "Something went wrong"; // Access the error message directly
-            alert(errorMessage);
+            const errorMessage = error.response?.data?.error || "Something went wrong"; // Access the error message directly
+            toast.error(errorMessage);
             console.error("Login failed:", errorMessage);
         }
     };

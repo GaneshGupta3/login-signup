@@ -6,6 +6,7 @@ import ProfilePage from "./components/profile/ProfilePage";
 import LoginCard from "./components/LoginCard/LoginCard";
 import Dashboard from "./components/Dashboard/Dashboard";
 import ChatPage from "./components/Chatpage/ChatPage";
+import { ToastContainer } from 'react-toastify';
 
 function App() {
     return (
@@ -25,6 +26,7 @@ function App() {
                     </Routes>
                 </Layout>
             </BrowserRouter>
+            <ToastContainer />
         </>
     );
 }
